@@ -94,8 +94,8 @@ const execute = async (year, month, startDate, endDate) => {
   const result = await execute(new Date().getFullYear(), 5, 2, 5);
 
   if (result.length === 0) {
-    throw new Error('failed');
     fs.writeFileSync('./error.txt', `에러 테스트`, 'utf-8');
+    throw new Error('failed');
   }
 
   fs.writeFileSync('./result.txt', `티켓오픈날짜는 ${(new Date())}`, 'utf-8');
