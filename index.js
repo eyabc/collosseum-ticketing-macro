@@ -80,6 +80,32 @@ const fetchAPI = async (code, year, month, startDate, endDate) => {
 
 }
 
+function createIssue(result) {
+
+  const token = process.env.GITHUB_TOKEN;
+  const body = fs.readFileSync('./resultTemplate.md', 'utf-8').replace('result_string', JSON.stringify(result, null, 2));
+  const data = {
+    title: new Date().toDateString(),
+    body,
+  };
+
+  console.log(data);
+
+  axios.post(`https://api.github.com/repos/eyabc/collosseum-ticketing-macro/issues`, data, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+       .then((response) => {
+         console.log(response.data);
+       })
+       .catch((error) => {
+         console.error(error);
+       });
+
+}
+
+
 const execute = async (year, month, startDate, endDate) => {
 
   const result = await Promise.all(CODES.map((item) => {
@@ -94,9 +120,8 @@ const execute = async (year, month, startDate, endDate) => {
   const result = await execute(new Date().getFullYear(), 5, 2, 5);
 
   if (result.length === 0) {
-    fs.writeFileSync('./error.txt', `에러 테스트`, 'utf-8');
-    throw new Error('failed');
+    createIssue(result);
+  } else {
+    createIssue([ { body: 'test' } ]);
   }
-
-  fs.writeFileSync('./result.txt', `티켓오픈날짜는 ${(new Date())}`, 'utf-8');
 })()

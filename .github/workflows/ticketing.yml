@@ -3,6 +3,9 @@ name: Ticketing
 on:
   schedule:
     - cron: '*/1 * * * *'
+  push:
+    branch:
+      - main
 
   workflow_dispatch:
 
@@ -18,23 +21,9 @@ jobs:
         with:
           node-version: 18
 
-      - name: Install dependencies
+      - name: 설치 및 실행
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm install
           npm run start
-
-      - name: Create Issue if there are tickets available
-        if: success()
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: 'Tickets Available'
-          content-filepath: result.txt
-          labels: 'success'
-
-      - name: Create Issue if there are tickets error
-        if: failure()
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: 'Tickets Error'
-          content-filepath: error.txt
-          labels: 'error'
