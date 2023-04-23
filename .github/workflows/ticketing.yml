@@ -23,7 +23,7 @@ jobs:
 
       - name: Run script
         run: |
-          node ./index.js > result.txt
+          npm run start
 
       - name: Create Issue if there are tickets available
         if: success() && contains(run.outputs.result, 'AVAILABLE')
