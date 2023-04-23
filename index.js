@@ -85,7 +85,7 @@ function createIssue(result) {
   const token = process.env.GITHUB_TOKEN;
   const body = fs.readFileSync('./resultTemplate.md', 'utf-8').replace('result_string', JSON.stringify(result, null, 2));
   const data = {
-    title: new Date().toDateString(),
+    title: new Date().toISOString(),
     body,
   };
 
