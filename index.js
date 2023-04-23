@@ -93,7 +93,7 @@ function createIssue(result) {
 
   axios.post(`https://api.github.com/repos/eyabc/collosseum-ticketing-macro/issues`, data, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `token ${token}`
     }
   })
        .then((response) => {
