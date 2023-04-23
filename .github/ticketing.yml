@@ -1,0 +1,40 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  schedule:
+    - cron: '*/1 * * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  check-tickets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2.4.2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run script
+        run: |
+          node ./index.js > result.txt
+
+      - name: Create Issue if there are tickets available
+        if: success() && contains(run.outputs.result, 'AVAILABLE')
+        uses: peter-evans/create-issue-from-file@v2.6.1
+        with:
+          title: 'Tickets Available'
+          content-filepath: result.txt
+          labels: 'tickets'
+          assignees: 'username'
