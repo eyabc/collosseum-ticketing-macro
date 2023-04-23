@@ -29,4 +29,12 @@ jobs:
         with:
           title: 'Tickets Available'
           content-filepath: result.txt
-          labels: 'tickets'
+          labels: 'success'
+
+      - name: Create Issue if there are tickets error
+        if: error()
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: 'Tickets Error'
+          content-filepath: error.txt
+          labels: 'error'
