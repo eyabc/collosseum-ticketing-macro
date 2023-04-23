@@ -26,7 +26,7 @@ jobs:
           npm run start
 
       - name: Create Issue if there are tickets available
-        if: success() && contains(run.outputs.result, 'AVAILABLE')
+        if: success()
         uses: peter-evans/create-issue-from-file@v2.6.1
         with:
           title: 'Tickets Available'
