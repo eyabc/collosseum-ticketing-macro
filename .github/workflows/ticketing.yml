@@ -32,7 +32,7 @@ jobs:
           labels: 'success'
 
       - name: Create Issue if there are tickets error
-        if: error()
+        if: failure()
         uses: peter-evans/create-issue-from-file@v4
         with:
           title: 'Tickets Error'
