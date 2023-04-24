@@ -117,7 +117,7 @@ const execute = async (year, month, startDate, endDate) => {
 }
 
 (async() => {
-  const result = await execute(new Date().getFullYear(), 5, 2, 5);
+  const result = await execute(new Date().getFullYear(), 5, 2, 6);
 
   if (result.length !== 0) {
     createIssue(result);
